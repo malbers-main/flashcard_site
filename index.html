@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Flashcards</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js"></script>
+    <script src="./js/data.js"></script>
+    
+    <!-- Hide all pages by default -->
+    <style>
+        .viewPage {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>CS Flashcards</h1>
+    
+    <button onclick="showView('Home')">Home</button>
+    <button onclick="showView('All Cards')">All Cards</button>
+    <button onclick="showView('Random Review')">Random Review</button>
+
+    <div id="Home" class="viewPage">
+        <h1>Home</h1>
+
+        <h2>Add Card</h2>
+        <div>
+            <label for="question">Question:</label>
+            <input type="text" id="question">
+        </div>
+        <div>
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer">
+        </div>
+        <div>
+            <label for="Category">Category:</label>
+            <select id="category">
+                <!-- Default option -->
+                <option value="">Select</option>
+            </select>
+        </div>
+        <button onclick="createFC()">Create Flashcard</button>
+
+        <h2>Categories</h2>
+        <div>
+            <label for="Category">New Category:</label>
+            <input type="text" id="newCategory">
+        </div>
+        <div>
+            <label for="Category">Category List:</label>
+            <select id="removeCategory">
+                <!-- Default option -->
+                <option value="">Select</option>
+            </select>
+        </div>
+        <button onclick="createCategory()">Create Category</button>
+        <button onclick="deleteCategory()">Delete Category</button>
+
+
+    </div>
+
+    <div id="All Cards" class="viewPage">
+        <h1>All Cards</h1>
+
+        <button id="clearAll_button" onclick="clearFCs()">Full Clear Flashcards</button>
+
+        <div id="flashcardContainer">
+        </div>
+    </div>
+
+    <div id="Random Review" class="viewPage">
+        <h1>Random Review</h1>
+
+        <button id="revealRando_button" onclick="randomDisplay()">Reveal Random Card</button>
+
+        <div id="randomCardContainer">
+        </div>
+    </div>
+
+</body>
+</html>
