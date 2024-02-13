@@ -1,5 +1,91 @@
-.flashcard {
-    border: 3px solid black;
-    padding: 15px;
-    margin-bottom: 5px;
+/* Reveal universal style below to apply red border to all elements */
+
+/* * {
+    border: 1px solid red;
+} */
+
+/*
+These styles function as a way to show / hide the three 
+different view-states based on their class style
+*/
+.showView {
+    display: block;
+}
+.hideView {
+    display: none;
+}
+
+/* Style for main header and view-page titles */
+#mainTitle {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.viewTitle {
+    text-align: center;
+}
+
+/* Styles for view-buttons */
+.viewButtonContainer {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.hiddenViewButton {
+    background-color: rgb(238, 33, 194);
+    color: black;
+    font-weight: 300;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.activeViewButton {
+    background-color: rgb(255, 180, 239);
+    color: black;
+    font-weight: 300;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.hiddenViewButton:hover {
+    background-color: rgb(251, 234, 247);
+    color: black;
+    font-weight: 300;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Styles for the flashcard creator on the 'home' view */
+#flashcardCreator {
+    text-align: center;
+}
+.creatorButton {
+    background-color: rgb(66, 211, 163);
+    color: black;
+    font-weight: 500;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.creatorButton:hover {
+    background-color: rgb(30, 147, 108);
+    color: black;
+    font-weight: 500;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.creatorButton:active {
+    background-color: rgb(190, 249, 229);
+    color: black;
+    font-weight: 500;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.creatorInput {
+    font-weight: 200;
+    padding: 5px;
+    font-size: 20px;
 }

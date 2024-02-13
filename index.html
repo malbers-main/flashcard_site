@@ -1,83 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<!-- Main head info -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Title of html file -->
     <title>CS Flashcards</title>
+    <!-- Link CSS file -->
     <link rel="stylesheet" href="./css/style.css">
+    <!-- Link JavaScript file -->
     <script src="./js/script.js"></script>
-    <script src="./js/data.js"></script>
-    
-    <!-- Hide all pages by default -->
-    <style>
-        .viewPage {
-            display: none;
-        }
-    </style>
 
 </head>
+
+
+<!-- Main body -->
 <body>
-    <h1>CS Flashcards</h1>
-    
-    <button onclick="showView('Home')">Home</button>
-    <button onclick="showView('All Cards')">All Cards</button>
-    <button onclick="showView('Random Review')">Random Review</button>
 
-    <div id="Home" class="viewPage">
-        <h1>Home</h1>
+    <!-- Site's main header -->
+    <h1 id="mainTitle">CS Flashcard Site</h1>
 
-        <h2>Add Card</h2>
-        <div>
-            <label for="question">Question:</label>
-            <input type="text" id="question">
-        </div>
-        <div>
-            <label for="answer">Answer:</label>
-            <input type="text" id="answer">
-        </div>
-        <div>
-            <label for="Category">Category:</label>
-            <select id="category">
-                <!-- Default option -->
-                <option value="">Select</option>
-            </select>
-        </div>
-        <button onclick="createFC()">Create Flashcard</button>
-
-        <h2>Categories</h2>
-        <div>
-            <label for="Category">New Category:</label>
-            <input type="text" id="newCategory">
-        </div>
-        <div>
-            <label for="Category">Category List:</label>
-            <select id="removeCategory">
-                <!-- Default option -->
-                <option value="">Select</option>
-            </select>
-        </div>
-        <button onclick="createCategory()">Create Category</button>
-        <button onclick="deleteCategory()">Delete Category</button>
-
-
+    <!-- Buttons to change the view of the page -->
+    <div class="viewButtonContainer">
+        <button onclick="showView('home')" class="activeViewButton" id="homeViewButton">Home</button>
+        <button onclick="showView('allcards')" class="hiddenViewButton" id="allCardsViewButton">Saved Flashcards</button>
+        <button onclick="showView('review')" class="hiddenViewButton" id="reviewViewButton">Review</button>
     </div>
 
-    <div id="All Cards" class="viewPage">
-        <h1>All Cards</h1>
+    <div id="viewsContainer">
 
-        <button id="clearAll_button" onclick="clearFCs()">Full Clear Flashcards</button>
+        <!-- Home page view -->
+        <div class="showView" id="home">
 
-        <div id="flashcardContainer">
+            <!-- Input section for flashcard creation -->
+            <div id="flashcardCreator">
+                <input type="text" class="creatorInput" id="questionInput" placeholder="Enter Question">
+                <input type="text" class="creatorInput" id="answerInput" placeholder="Enter Answer">
+                <button onclick="createFlashcard()" class="creatorButton">Add Flashcard</button>
+            </div>
+
         </div>
-    </div>
+        <!-- All cards view -->
+        <div class="hideView" id="allcards">
 
-    <div id="Random Review" class="viewPage">
-        <h1>Random Review</h1>
+            <ul id="flashcardList"></ul>
+            
+            <button onclick="showAllFlashcards()" class="allcardsButton">Show All Flashcards</button>
+            <button onclick="deleteAllFlashcards()" class="allcardsButton">Delete All Flashcards</button>
 
-        <button id="revealRando_button" onclick="randomDisplay()">Reveal Random Card</button>
-
-        <div id="randomCardContainer">
         </div>
+        <!-- Review page view -->
+        <div class="hideView" id="review">
+
+
+
+        </div>
+
     </div>
 
 </body>
