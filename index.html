@@ -25,7 +25,7 @@
     <!-- Buttons to change the view of the page -->
     <div class="viewButtonContainer">
         <button onclick="showView('home')" class="activeViewButton" id="homeViewButton">Home</button>
-        <button onclick="showView('allcards')" class="hiddenViewButton" id="allCardsViewButton">Saved Flashcards</button>
+        <button onclick="allCardsView()" class="hiddenViewButton" id="allCardsViewButton">Saved Flashcards</button>
         <button onclick="showView('review')" class="hiddenViewButton" id="reviewViewButton">Review</button>
     </div>
 
@@ -36,19 +36,31 @@
 
             <!-- Input section for flashcard creation -->
             <div id="flashcardCreator">
+                <!-- Text input for flashcard question and answer -->
                 <input type="text" class="creatorInput" id="questionInput" placeholder="Enter Question">
                 <input type="text" class="creatorInput" id="answerInput" placeholder="Enter Answer">
+                <!-- Dropdown menu for selecting stack -->
+                <select id="stackSelect" class="creatorInput">
+                    <option value="" disabled selected>Select Stack</option>
+                    <!-- Options will be dynamically added here -->
+                </select>
                 <button onclick="createFlashcard()" class="creatorButton">Add Flashcard</button>
+            </div>
+
+            <!-- Input section for stack creation and deletion -->
+            <div id="stackCreator">
+                <input type="text" class="creatorInput" id="stackNameInput" placeholder="Enter Stack Name">
+                <button onclick="createStack()" class="creatorButton">Create Stack</button>
+                <button onclick="deleteAllStacks()" class="creatorButton" id="deleteAllStacksButton">Delete All Stacks</button>
             </div>
 
         </div>
         <!-- All cards view -->
         <div class="hideView" id="allcards">
 
-            <ul id="flashcardList"></ul>
-            
-            <button onclick="showAllFlashcards()" class="allcardsButton">Show All Flashcards</button>
-            <button onclick="deleteAllFlashcards()" class="allcardsButton">Delete All Flashcards</button>
+            <!-- This container is populated with the generated flashcards -->
+            <div id="flashcardContainer">
+            </div>
 
         </div>
         <!-- Review page view -->
