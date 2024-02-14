@@ -3,18 +3,15 @@
 /* * {
     border: 1px solid red;
 } */
-
-/*
-These styles function as a way to show / hide the three 
-different view-states based on their class style
-*/
+/*--------------------------------------------------------------------------*/
+/* These styles function as a way to show / hide the three different view-states based on their class style */
 .showView {
     display: block;
 }
 .hideView {
     display: none;
 }
-
+/*--------------------------------------------------------------------------*/
 /* Style for main header and view-page titles */
 #mainTitle {
     font-weight: 600;
@@ -25,7 +22,7 @@ different view-states based on their class style
 .viewTitle {
     text-align: center;
 }
-
+/*--------------------------------------------------------------------------*/
 /* Styles for view buttons */
 .viewButtonContainer {
     text-align: center;
@@ -55,7 +52,7 @@ different view-states based on their class style
     font-size: 16px;
     cursor: pointer;
 }
-
+/*--------------------------------------------------------------------------*/
 /* Styles for the flashcard creator on the 'home' view */
 #flashcardCreator {
     text-align: center;
@@ -90,7 +87,11 @@ different view-states based on their class style
     padding: 5px;
     font-size: 20px;
 }
-
+#stackSelect {
+    height: auto;
+    width: auto;
+}
+/*--------------------------------------------------------------------------*/
 /* Styles for the stack creator on the 'home' view */
 #stackCreator {
     text-align: center;
@@ -104,12 +105,72 @@ different view-states based on their class style
 #deleteAllStacksButton:active {
     background-color: rgb(255, 170, 170);
 }
-
 #flashcardList {
     text-align: center;
 }
-
-/* Styles for flashcards shown on 'allcards' page */
-.flashcard {
-    
+#stackNameInput {
+    height: auto;
+    width: auto;
 }
+/*--------------------------------------------------------------------------*/
+/* Styles for flashcards shown on 'allcards' page */
+#flashcardContainer {
+    display: flex;
+    justify-content: space-around; /* Adjust alignment as needed */
+    flex-wrap: wrap;
+  }
+  .flashcard {
+    position: relative;
+    flex-basis: calc(25% - 20px); /* Adjust the width of each flashcard */
+    margin: 10px; /* Adjust margin as needed */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    text-align: center; /* Optional: Center the content */
+  }
+  .flashcardElementsContainer {
+    padding: 10px;
+    font-size: larger;
+    font-weight: 700;
+  }
+  .flashcardText {
+    padding: 10px;
+    margin-bottom: 50px;
+  }
+  .flashcardStack {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  #toggleButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(252, 167, 76);
+    color: black;
+    font-weight: 500;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  #toggleButton:hover {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(255, 232, 207);
+    color: black;
+    font-weight: 500;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  #toggleButton:active {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgb(246, 204, 159);
+    color: black;
+    font-weight: 500;
+    padding: 5px;
+    font-size: 20px;
+    cursor: pointer;
+  }

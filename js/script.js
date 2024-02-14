@@ -26,7 +26,6 @@ function showView(viewId) {
     viewButtons.forEach(vB => vB.classList.remove('activeViewButton'));
     viewButtons.forEach(vB => vB.classList.add('hiddenViewButton'));
 
-    
     // Show the specified view
     document.getElementById(viewId).classList.remove('hideView');
     document.getElementById(viewId).classList.add('showView');
@@ -44,7 +43,6 @@ let stacks = [];
 let flashcards = [];
 
 /*---------------------------------------- Flashcard Functionality ---------------------------------------------*/
-
 
 // Function to add a flashcard
 function createFlashcard() {
@@ -100,9 +98,12 @@ function showAllFlashcards() {
             
             // Set content for the flashcard div
             flashcardDiv.innerHTML = `
-                <div class="question">Question: ${flashcard.question}</div>
-                <div class="answer">Answer: ${flashcard.answer}</div>
-                <div class="stack">Stack: ${stack.name}</div>
+                <div class="flashcardElementsContainer">
+                    <div class=flashcardText id="flashcardQuestion">Q: ${flashcard.question}</div>
+                    <div class=flashcardText id="flashcardAnswer" style="display: none;">A: ${flashcard.answer}</div>
+                    <div class="flashcardStack">Stack: ${stack.name}</div>
+                    <button id="toggleButton" onclick="toggleFlashcard(this)">Toggle</button>
+                </div>
             `;
             
             // Append the flashcard div to the container
@@ -110,6 +111,25 @@ function showAllFlashcards() {
         });
     });
 }
+
+// Function to toggle between question and answer
+function toggleFlashcard(button) {
+
+    // Get flashcard question and answer elements
+    const flashcardInfo = button.parentElement;
+    const questionDiv = flashcardInfo.querySelector('#flashcardQuestion');
+    const answerDiv = flashcardInfo.querySelector('#flashcardAnswer');
+
+    // Flip display by setting one of the elements to 'none' and the other to 'block'
+    if (questionDiv.style.display === 'none') {
+        questionDiv.style.display = 'block';
+        answerDiv.style.display = 'none';
+    } else {
+        questionDiv.style.display = 'none';
+        answerDiv.style.display = 'block';
+    }
+}
+
 
 // Function to delete all flashcards
 function deleteAllFlashcards() {
@@ -199,9 +219,12 @@ function displayStacks() {
 
 // Function to populate the dropdown menu with available stacks
 function populateStackDropdown() {
+
+    // Get dropdown element and reset it's valye to default
     const stackSelect = document.getElementById('stackSelect');
     stackSelect.innerHTML = '<option value="" disabled selected>Select Stack</option>';
 
+    // Populate dropdown menu with stack name informaton
     stacks.forEach(stack => {
         const option = document.createElement('option');
         option.value = stack.name;
@@ -210,11 +233,16 @@ function populateStackDropdown() {
     });
 }
 
-
 /* 'allcards' view functionality */
 function allCardsView() {
     showView('allcards');
     showAllFlashcards();
+}
+
+/* 'home' view functionality */
+function homeView() {
+    showView('home');
+    populateStackDropdown();
 }
 
 /*------------------------------- Saving data to local storage and updating page on loading -------------------------------*/
