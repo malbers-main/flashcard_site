@@ -44,6 +44,11 @@ let flashcards = [];
 
 /*---------------------------------------- Flashcard Functionality ---------------------------------------------*/
 
+// Function to find flashcard index
+function findFlashcardIndex(flashcardId) {
+
+}
+
 // Function to add a flashcard
 function createFlashcard() {
 
@@ -91,21 +96,22 @@ function showAllFlashcards() {
     // Loop through each stack
     stacks.forEach(stack => {
         // Loop through flashcards of each stack
-        stack.flashcards.forEach(flashcard => {
+        stack.flashcards.forEach((flashcard, index) => {
             // Create a div for each flashcard
             const flashcardDiv = document.createElement('div');
             flashcardDiv.classList.add('flashcard');
-            
+
             // Set content for the flashcard div
             flashcardDiv.innerHTML = `
                 <div class="flashcardElementsContainer">
-                    <div class=flashcardText id="flashcardQuestion">Q: ${flashcard.question}</div>
-                    <div class=flashcardText id="flashcardAnswer" style="display: none;">A: ${flashcard.answer}</div>
+                    <div class="flashcardText" id="flashcardQuestion">Q: ${flashcard.question}</div>
+                    <div class="flashcardText" id="flashcardAnswer" style="display: none;">A: ${flashcard.answer}</div>
                     <div class="flashcardStack">Stack: ${stack.name}</div>
-                    <button id="toggleButton" onclick="toggleFlashcard(this)">Toggle</button>
+                    <button class="toggleButton" onclick="toggleFlashcard(this)">Toggle</button>
+                    <button class="deleteButton" onclick="deleteFlashcardFromStack(${index})">Delete</button>
                 </div>
             `;
-            
+
             // Append the flashcard div to the container
             flashcardContainer.appendChild(flashcardDiv);
         });
@@ -178,7 +184,6 @@ function createStack() {
 // Function to delete a stack
 function deleteStack(stackIndex) {
     stacks.splice(stackIndex, 1);
-    displayStacks();
     console.log('Stack deleted successfully.');
 
     // Save new changes to storage
@@ -231,6 +236,34 @@ function populateStackDropdown() {
         option.textContent = stack.name;
         stackSelect.appendChild(option);
     });
+}
+
+// Function to delete a flashcard from its stack
+function deleteFlashcardFromStack(flashcardIndex) {
+
+    // Confirm user wants to delete all stacks and thus all flashcards as well
+    const isConfirmed = confirm("Are you sure you want to delete this flashcard?")
+    
+    if (isConfirmed) {
+        const stackIndex = findStackIndexContainingFlashcard(flashcardIndex);
+        if (stackIndex !== -1) {
+            stacks[stackIndex].flashcards.splice(flashcardIndex, 1);
+            showAllFlashcards(); // Update displayed flashcards
+            saveDataToStorage(); // Save changes to storage
+        }
+    }
+}
+
+
+// Function to find the index of the stack containing a flashcard
+function findStackIndexContainingFlashcard(flashcardIndex) {
+    for (let i = 0; i < stacks.length; i++) {
+        const stack = stacks[i];
+        if (stack.flashcards.some((_, index) => index === flashcardIndex)) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 /* 'allcards' view functionality */
