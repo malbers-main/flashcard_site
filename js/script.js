@@ -1,5 +1,12 @@
 // script.js
 
+/* Global Variables */
+// Array that holds all stacks
+let stacks = [];
+
+// Array that stores all flashcards
+let flashcards = [];
+
 /*
 This section of functions is dedicated to changing between the three view-states of the SPA
 */
@@ -34,13 +41,18 @@ function showView(viewId) {
 
 }
 
-/* Global Variables */
+/* 'allcards' view functionality */
+function allCardsView() {
+    showView('allcards');
+    showAllFlashcards();
+}
 
-// Array that holds all stacks
-let stacks = [];
-
-// Array that stores all flashcards
-let flashcards = [];
+/* 'home' view functionality */
+function homeView() {
+    showView('home');
+    showAllFlashcards();
+    populateStackDropdown();
+}
 
 /*---------------------------------------- Flashcard Functionality ---------------------------------------------*/
 
@@ -72,7 +84,8 @@ function createFlashcard() {
         questionInput.value = '';
         answerInput.value = '';
 
-        displayFlashcards(selectedStackIndex - 1); // Update displayed flashcards for the selected stack
+        showAllFlashcards();
+
         console.log('Flashcard added successfully:', flashcard);
     } else {
         alert('Please enter both question, answer, and select a stack.');
@@ -266,18 +279,6 @@ function findStackIndexContainingFlashcard(flashcardIndex) {
     return -1;
 }
 
-/* 'allcards' view functionality */
-function allCardsView() {
-    showView('allcards');
-    showAllFlashcards();
-}
-
-/* 'home' view functionality */
-function homeView() {
-    showView('home');
-    populateStackDropdown();
-}
-
 /*------------------------------- Saving data to local storage and updating page on loading -------------------------------*/
 
 // Function to save stack and flashcard information to localStorage
@@ -308,6 +309,7 @@ function loadDataFromStorage() {
 
 // Call the function to load data when the page is loaded
 window.addEventListener('load', loadDataFromStorage);
+window.addEventListener('load', homeView);
 window.addEventListener('load', populateStackDropdown);
 
 // Call the function to save data when the page is unloaded
