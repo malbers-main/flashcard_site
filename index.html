@@ -1,36 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flashcard Site</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css" />
     <script src="./js/script.js"></script>
-
-</head>
-<body>
-    
+  </head>
+  <body>
     <h1>Flashcard Website</h1>
 
     <div id="viewButtonContainer">
-        <button onclick="changeView('homeView')" class="viewButton" id="homeViewButton">Home</button>
-        <button onclick="changeView('reviewView')" class="viewButton" id="reviewViewButton">Review</button>
-        <button onclick="changeView('learnView')" class="viewButton" id="learnViewButton">Learn</button>
+      <button
+        onclick="changeView('homeView')"
+        class="viewButton"
+        id="homeViewButton"
+      >
+        Home
+      </button>
+      <button
+        onclick="changeView('reviewView')"
+        class="viewButton"
+        id="reviewViewButton"
+      >
+        Review
+      </button>
+      <button
+        onclick="changeView('learnView')"
+        class="viewButton"
+        id="learnViewButton"
+      >
+        Learn
+      </button>
     </div>
-
 
     <div id="viewContainer">
-        <div class="hiddenView" id="homeView">
-            <h1>Home</h1>
-        </div>
-        <div class="hiddenView" id="reviewView">
-            <h1>Review</h1>
-        </div>
-        <div class="hiddenView" id="learnView">
-            <h1>Learn</h1>
-        </div>
-    </div>
+      <!-- Default view is Home -->
+      <div class="showView" id="homeView">
+        <h1>Home</h1>
 
-</body>
+        <!-- Contains all elements that are used in the creation and deletion of stacks -->
+        <div id="stackCreatorContainer">
+          <input
+            type="text"
+            id="stackNameInput"
+            placeholder="Enter Stack Name"
+          />
+          <button
+            onclick="addStack()"
+            class="homeViewButton"
+            id="createStackButton"
+          >
+            Create Stack
+          </button>
+
+          <select id="stackDropdown"></select>
+          <button
+            onclick="deleteStack()"
+            class="homeViewButton"
+            id="deleteStackButton"
+          >
+            Delete Stack
+          </button>
+        </div>
+      </div>
+      <div class="hiddenView" id="reviewView">
+        <h1>Review</h1>
+      </div>
+      <div class="hiddenView" id="learnView">
+        <h1>Learn</h1>
+      </div>
+    </div>
+  </body>
 </html>
