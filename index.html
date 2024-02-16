@@ -1,75 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Main head info -->
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Title of html file -->
-    <title>CS Flashcards</title>
-    <!-- Link CSS file -->
+    <title>Flashcard Site</title>
     <link rel="stylesheet" href="./css/style.css">
-    <!-- Link JavaScript file -->
     <script src="./js/script.js"></script>
 
 </head>
-
-
-<!-- Main body -->
 <body>
+    
+    <h1>Flashcard Website</h1>
 
-    <!-- Site's main header -->
-    <h1 id="mainTitle">CS Flashcard Site</h1>
-
-    <!-- Buttons to change the view of the page -->
-    <div class="viewButtonContainer">
-        <button onclick="homeView()" class="activeViewButton" id="homeViewButton">Home</button>
-        <button onclick="allCardsView()" class="hiddenViewButton" id="allCardsViewButton">Saved Flashcards</button>
-        <button onclick="showView('review')" class="hiddenViewButton" id="reviewViewButton">Review</button>
+    <div id="viewButtonContainer">
+        <button onclick="changeView('homeView')" class="viewButton" id="homeViewButton">Home</button>
+        <button onclick="changeView('reviewView')" class="viewButton" id="reviewViewButton">Review</button>
+        <button onclick="changeView('learnView')" class="viewButton" id="learnViewButton">Learn</button>
     </div>
 
-    <div id="viewsContainer">
 
-        <!-- Home page view -->
-        <div class="showView" id="home">
-
-            <!-- Input section for flashcard creation -->
-            <div id="flashcardCreator">
-                <!-- Text input for flashcard question and answer -->
-                <input type="text" class="creatorInput" id="questionInput" placeholder="Enter Question">
-                <input type="text" class="creatorInput" id="answerInput" placeholder="Enter Answer">
-                <!-- Dropdown menu for selecting stack -->
-                <select id="stackSelect" class="creatorInput">
-                    <option value="" disabled selected>Select Stack</option>
-                    <!-- Options will be dynamically added here -->
-                </select>
-                <button onclick="createFlashcard()" class="creatorButton">Add Flashcard</button>
-            </div>
-
-            <!-- Input section for stack creation and deletion -->
-            <div id="stackCreator">
-                <input type="text" class="creatorInput" id="stackNameInput" placeholder="Enter Stack Name">
-                <button onclick="createStack()" class="creatorButton">Create Stack</button>
-                <button onclick="deleteAllStacks()" class="creatorButton" id="deleteAllStacksButton">Delete All Stacks</button>
-            </div>
-
-            <!-- This container is populated with the generated flashcards -->
-            <div id="flashcardContainer">
-            </div>
-
+    <div id="viewContainer">
+        <div class="hiddenView" id="homeView">
+            <h1>Home</h1>
         </div>
-        <!-- All cards view -->
-        <div class="hideView" id="allcards">
-
+        <div class="hiddenView" id="reviewView">
+            <h1>Review</h1>
         </div>
-        <!-- Review page view -->
-        <div class="hideView" id="review">
-
-
-
+        <div class="hiddenView" id="learnView">
+            <h1>Learn</h1>
         </div>
-
     </div>
 
 </body>
