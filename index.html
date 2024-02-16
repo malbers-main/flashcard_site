@@ -48,35 +48,52 @@
           />
           <button
             onclick="addStack()"
-            class="homeViewButton"
+            class="homeFunctionButton"
             id="createStackButton"
           >
             Create Stack
           </button>
         </div>
 
+        <!-- Options for selecting and deleting stacks -->
         <div id="stackRemoverContainer">
           <select id="stackDropdown"></select>
           <button
             onclick="deleteStack()"
-            class="homeViewButton"
+            class="homeFunctionButton"
             id="deleteStackButton"
           >
             Delete Stack
           </button>
           <button
             onclick="deleteAllStacks()"
-            class="homeViewButton"
+            class="homeFunctionButton"
             id="deleteAllStackButton"
           >
             Delete All Stacks
           </button>
         </div>
 
-        <div id="stackContainer">
-          
+        <!-- Options for creating flashcards -->
+        <div id="flashcardCreation">
+          <input
+            type="text"
+            id="fcQuestion"
+            placeholder="Enter Question"
+          /><input type="text" id="fcAnswer" placeholder="Enter Answer" />
+          <button
+            onclick="addFlashcard()"
+            class="homeFunctionButton"
+            id="createFlashcardButton"
+          >
+            Create Flashcard
+          </button>
         </div>
 
+        <button onclick="showAllFlashcards()" id="showFlashcardsButton">Show All Flashcards</button>
+
+        <!-- Contains the list of flashcards for the selected stack -->
+        <div id="stackContainer"></div>
       </div>
       <div class="hiddenView" id="reviewView">
         <h1>Review</h1>
