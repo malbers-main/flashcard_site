@@ -100,6 +100,25 @@ function clearTextBoxes() {
   stackTextBox.value = "";
 }
 
+// Deletes all stacks and resets all cards
+function deleteAllStacks() {
+  var confirm = window.confirm(
+    "Deleting all stacks will remove all flashcards as well, are you sure you want to do this?"
+  );
+
+  if (confirm) {
+    // Remove all stacks from main list and refresh the stack dropdown
+    mainList.clearAll();
+    populateStackDropdown();
+
+    // Save data
+    saveData();
+
+    // Place cursor back on the stack text box
+    clearInputElements();
+    stackTextBox.focus();
+  }
+}
 // Deletes stack specified by the stack dropdown
 function deleteStack() {
   var stackOptionName =
@@ -117,6 +136,9 @@ function deleteStack() {
       // Place cursor back on the stack text box
       clearInputElements();
       stackTextBox.focus();
+
+      // Save data
+      saveData();
     }
   } else {
     alertUser("MUST CHOOSE STACK FOR DELETION");
@@ -140,6 +162,9 @@ function addStack() {
     // Clear text boxes and place cursor back on the stack text box
     clearTextBoxes();
     stackTextBox.focus();
+
+    // Save data
+    saveData();
   }
 }
 
@@ -189,16 +214,6 @@ function generateFlashcardID(question) {
   return flashcardID;
 }
 
-/*
-- Default view is 'homeView'
-- Initialize main StackList
-*/
-function loadSite() {
-  // Initialize main list
-  mainList = new StackList();
-  populateStackDropdown();
-}
-
 // Alerts the user to errors in the site
 function alertUser(alertCode) {
   switch (alertCode) {
@@ -216,5 +231,25 @@ function alertUser(alertCode) {
   }
 }
 
-/* Event Listeners */
-document.addEventListener("DOMContentLoaded", loadSite);
+window.addEventListener("load", loadSite);
+
+// Function to save data to localStorage
+function saveData() {
+  // Convert mainList to JSON and save to localStorage
+  localStorage.setItem("mainList", JSON.stringify(mainList));
+}
+
+// Function to load data from localStorage
+function loadSite() {
+  // Retrieve data from localStorage
+  const savedData = localStorage.getItem("mainList");
+  if (savedData) {
+    // Parse JSON data and initialize mainList
+    mainList = new StackList();
+    Object.assign(mainList, JSON.parse(savedData));
+    populateStackDropdown();
+  } else {
+    // If no data found, initialize an empty mainList
+    mainList = new StackList();
+  }
+}
