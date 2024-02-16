@@ -1,9 +1,3 @@
-/* Reveal universal style below to apply red border to all elements */
-
-/* * {
-    border: 1px solid red;
-} */
-/*--------------------------------------------------------------------------*/
 /* These styles function as a way to show / hide the three different view-states based on their class style */
 .showView {
     display: block;
@@ -11,4 +5,3 @@
 .hiddenView {
     display: none;
 }
-/*--------------------------------------------------------------------------*/
