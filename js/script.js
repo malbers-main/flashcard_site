@@ -54,7 +54,7 @@ class StackList {
     var stackName = flashcard.stackName;
     if (this.containStack(stackName)) {
       for (let i = 0; i < this.stackList.length; i++) {
-        var tempStack = this.stackList[i]
+        var tempStack = this.stackList[i];
         if (this.stackList[i].stackName === stackName) {
           this.stackList[i].addFlashcard(flashcard);
         }
@@ -64,7 +64,6 @@ class StackList {
     }
   }
 }
-
 class Stack {
   stackName;
   flashcards;
@@ -98,7 +97,6 @@ class Stack {
     }
   }
 }
-
 class Flashcard {
   id;
   question;
@@ -126,15 +124,15 @@ class Flashcard {
 }
 /*-----------------------------------------------------------------------------------------------*/
 
+// Completely clears the home page and reverts all inputs back to their original state
 function resetPage() {
   clearTextBoxes();
   populateStackDropdown();
   var stackContainer = document.getElementById("stackContainer");
   stackContainer.innerHTML = "";
-  
 }
 
-// Clears all input text boxes
+// Clears all input text boxes on the home page
 function clearTextBoxes() {
   var stackTextBox = document.getElementById("stackNameInput");
   stackTextBox.value = "";
@@ -152,6 +150,16 @@ function showAllFlashcards() {
   for (let i = 0; i < mainList.stackList.length; i++) {
     showFlashcards(mainList.stackList[i].stackName);
   }
+}
+
+function toggleFlashcard(event) {
+  var flashcardDiv = event.target.parentElement;
+
+  var questionDiv = flashcardDiv.querySelector(".question");
+  var answerDiv = flashcardDiv.querySelector(".answer");
+
+  questionDiv.classList.toggle("hiddenText");
+  answerDiv.classList.toggle("hiddenText");
 }
 
 function showFlashcards(stackName) {
@@ -176,16 +184,29 @@ function showFlashcards(stackName) {
 
     // Create elements for question and answer
     var question = document.createElement("div");
-    question.textContent = "Question: " + flashcard.question;
+    question.classList.add("question");
+    question.textContent = flashcard.question;
+
     var answer = document.createElement("div");
-    answer.textContent = "Answer: " + flashcard.answer;
+    answer.classList.add("answer");
+    answer.classList.add("hiddenText");
+    answer.textContent = flashcard.answer;
+
+    var toggleButton = document.createElement("button");
+    toggleButton.textContent = "Toggle Flashcard";
+    toggleButton.onclick = function (event) {
+      toggleFlashcard(event);
+    };
+
     var flashcardStack = document.createElement("div");
+    flashcardStack.classList.add("stack");
     flashcardStack.textContent = "Stack: " + flashcard.stackName;
 
     // Append question and answer elements to flashcardDiv
     flashcardDiv.appendChild(question);
     flashcardDiv.appendChild(answer);
     flashcardDiv.appendChild(flashcardStack);
+    flashcardDiv.appendChild(toggleButton);
 
     // Append the flashcardDiv to the stackContainer
     stackContainer.appendChild(flashcardDiv);
@@ -194,9 +215,7 @@ function showFlashcards(stackName) {
 
 // Deletes all stacks and resets all cards
 function deleteAllStacks() {
-
   var stackNameInput = document.getElementById("stackNameInput");
-
   var confirm = window.confirm(
     "Deleting all stacks will remove all flashcards as well, are you sure you want to do this?"
   );
@@ -212,9 +231,7 @@ function deleteAllStacks() {
 }
 // Deletes stack specified by the stack dropdown
 function deleteStack() {
-
   var stackNameInput = document.getElementById("stackNameInput");
-
   var stackOptionName =
     document.getElementById("stackDropdown").selectedOptions[0].textContent;
 
@@ -226,10 +243,10 @@ function deleteStack() {
       // Remove stack from main list and refresh the stack dropdown
       mainList.removeStack(stackOptionName);
       resetPage();
+      showAllFlashcards();
 
       // Place cursor back on the stack text box
       stackNameInput.focus();
-
     }
   } else {
     alertUser("MUST CHOOSE STACK FOR DELETION");
@@ -259,26 +276,32 @@ function addStack() {
 // Add new flashcard to the main list
 function addFlashcard() {
   // Get flashcard answer and question text info and trim
-    var flashcardQuestion = document.getElementById("fcQuestion").value.trim();
-    var flashcardAnswer = document.getElementById("fcAnswer").value.trim();
-    var flashcardStackName = document.getElementById("stackDropdown").selectedOptions[0].textContent;
+  var flashcardQuestion = document.getElementById("fcQuestion").value.trim();
+  var flashcardAnswer = document.getElementById("fcAnswer").value.trim();
+  var flashcardStackName =
+    document.getElementById("stackDropdown").selectedOptions[0].textContent;
 
-    var newFlashcard;
+  var newFlashcard;
 
-    // If the flashcard's fields are empty or the stack is not present alert the user
-    if (flashcardAnswer === "" || flashcardQuestion === "") {
-      alertUser("QUESTION AND ANSWER REQUIRED");
+  // If the flashcard's fields are empty or the stack is not present alert the user
+  if (flashcardAnswer === "" || flashcardQuestion === "") {
+    alertUser("QUESTION AND ANSWER REQUIRED");
+  } else {
+    if (!mainList.containStack(flashcardStackName)) {
+      alertUser("FLASHCARD NEEDS STACK");
     } else {
-      if (!mainList.containStack(flashcardStackName)) {
-        alertUser("FLASHCARD NEEDS STACK");
-      } else {
-        // Create new flashcard and add to main list
-        newFlashcard = new Flashcard(flashcardQuestion, flashcardAnswer, flashcardStackName);
-        mainList.addFlashcard(newFlashcard);
+      // Create new flashcard and add to main list
+      newFlashcard = new Flashcard(
+        flashcardQuestion,
+        flashcardAnswer,
+        flashcardStackName
+      );
+      mainList.addFlashcard(newFlashcard);
 
-        clearTextBoxes();
-      }
+      clearTextBoxes();
+      showAllFlashcards();
     }
+  }
 }
 
 // Populates the stack dropdown used to select stacks for deletion
@@ -320,7 +343,7 @@ function changeView(viewID) {
 
 // Generates a unique string that is used to identify flashcards
 function generateFlashcardID(question) {
-  flashcardID = "";
+  var flashcardID = "";
   for (let i = 0; i < question.length; i++) {
     flashcardID += question.charCodeAt(i);
   }
@@ -354,9 +377,6 @@ function alertUser(alertCode) {
   }
 }
 
-window.addEventListener("beforeunload", saveData);
-window.addEventListener("load", loadSite);
-
 // Function to save data to localStorage
 function saveData() {
   // Convert mainList to JSON and save to localStorage
@@ -377,13 +397,23 @@ function loadSite() {
       const stackObj = new Stack(stack.stackName);
       // Restore flashcards
       for (let flashcard of stack.flashcards) {
-        stackObj.addFlashcard(new Flashcard(flashcard.question, flashcard.answer, flashcard.stackName));
+        stackObj.addFlashcard(
+          new Flashcard(
+            flashcard.question,
+            flashcard.answer,
+            flashcard.stackName
+          )
+        );
       }
       mainList.addStack(stackObj);
     }
-    populateStackDropdown();
   } else {
     // If no data found, initialize an empty mainList
     mainList = new StackList();
   }
+  populateStackDropdown();
+  showAllFlashcards();
 }
+
+window.addEventListener("beforeunload", saveData);
+window.addEventListener("load", loadSite);

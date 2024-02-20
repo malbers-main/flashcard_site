@@ -5,3 +5,12 @@
 .hiddenView {
     display: none;
 }
+.hiddenText {
+    display: none;
+}
+.flashcard {
+    border: 1px solid black;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 5px;
+}
