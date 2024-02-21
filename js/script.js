@@ -2,6 +2,9 @@
 
 var mainList;
 
+window.addEventListener("beforeunload", saveData);
+window.addEventListener("load", loadSite);
+
 /*-----------------------------------------------------------------------------------------------*/
 class StackList {
   stackList;
@@ -124,6 +127,15 @@ class Flashcard {
 }
 /*-----------------------------------------------------------------------------------------------*/
 
+// 
+function showStack() {
+  var stackName = document.getElementById("stackSelectDropdown")
+    .selectedOptions[0].textContent;
+  var stackContainer = document.getElementById("stackContainer");
+  stackContainer.innerHTML = "";
+  showOnlyStack(stackName);
+}
+
 // Completely clears the home page and reverts all inputs back to their original state
 function resetPage() {
   clearTextBoxes();
@@ -152,6 +164,7 @@ function showAllFlashcards() {
   }
 }
 
+// Toggles flashcard information between question and answer
 function toggleFlashcard(event) {
   var flashcardDiv = event.target.parentElement;
 
@@ -162,7 +175,22 @@ function toggleFlashcard(event) {
   answerDiv.classList.toggle("hiddenText");
 }
 
+// Clears the stack container and only populates with specified stack
+function showOnlyStack(stackName) {
+  // Get stack container and empty it before populating it
+  var stackContainer = document.getElementById("stackContainer");
+  stackContainer.innerHTML = "";
+  showFlashcards(stackName);
+}
+
+// Populates the stack container with the flashcards containing 'stackName' as their stack
 function showFlashcards(stackName) {
+  // Show all option
+  if (stackName === "Show All") {
+    showAllFlashcards();
+    return;
+  }
+
   // Get stack container
   var stackContainer = document.getElementById("stackContainer");
 
@@ -231,9 +259,12 @@ function deleteAllStacks() {
 }
 // Deletes stack specified by the stack dropdown
 function deleteStack() {
+  var stackSelect = document.getElementById("stackSelectDropdown")
+    .selectedOptions[0].textContent;
+
   var stackNameInput = document.getElementById("stackNameInput");
   var stackOptionName =
-    document.getElementById("stackDropdown").selectedOptions[0].textContent;
+    document.getElementById("stackEditDropdown").selectedOptions[0].textContent;
 
   if (mainList.containStack(stackOptionName)) {
     var confirm = window.confirm(
@@ -243,7 +274,14 @@ function deleteStack() {
       // Remove stack from main list and refresh the stack dropdown
       mainList.removeStack(stackOptionName);
       resetPage();
-      showAllFlashcards();
+
+      // If the stack removed is the stack currently being showed, then show all stacks
+      if (stackSelect === stackOptionName) {
+        showFlashcards("Show All");
+      } else {
+        showOnlyStack(stackSelect);
+        setSelectDropdown(stackSelect);
+      }
 
       // Place cursor back on the stack text box
       stackNameInput.focus();
@@ -275,11 +313,13 @@ function addStack() {
 
 // Add new flashcard to the main list
 function addFlashcard() {
+  var flashcardQuestionElement = document.getElementById("fcQuestion");
+
   // Get flashcard answer and question text info and trim
-  var flashcardQuestion = document.getElementById("fcQuestion").value.trim();
+  var flashcardQuestion = flashcardQuestionElement.value.trim();
   var flashcardAnswer = document.getElementById("fcAnswer").value.trim();
   var flashcardStackName =
-    document.getElementById("stackDropdown").selectedOptions[0].textContent;
+    document.getElementById("stackEditDropdown").selectedOptions[0].textContent;
 
   var newFlashcard;
 
@@ -298,23 +338,48 @@ function addFlashcard() {
       );
       mainList.addFlashcard(newFlashcard);
 
+      // Show the stack where the flashcard has been added and change the select dropdown to reflect the shown stack
       clearTextBoxes();
-      showAllFlashcards();
+      showOnlyStack(flashcardStackName);
+      setSelectDropdown(flashcardStackName);
+
+      flashcardQuestionElement.focus();
     }
   }
 }
 
-// Populates the stack dropdown used to select stacks for deletion
+// Sets the select dropdown value to the specified stack
+function setSelectDropdown(stackName) {
+  var selectDropdown = document.getElementById("stackSelectDropdown");
+  var options = selectDropdown.options;
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].textContent === stackName) {
+      selectDropdown.value = options[i].value;
+      return;
+    }
+  }
+}
+
+// Populates the stack dropdowns used to select stacks for deletion and for organizing the flashcards
 function populateStackDropdown() {
-  // Get dropdown element and clear its contents
-  var stackDropdown = document.getElementById("stackDropdown");
+
+  // Get dropdown elements and clear their contents
+  var stackDropdown = document.getElementById("stackEditDropdown");
+  var stackSelectDropdown = document.getElementById("stackSelectDropdown");
+  stackSelectDropdown.innerHTML = "";
   stackDropdown.innerHTML = "";
 
-  // Create default option that is set as the first option
+  // Create default option foir creating flashcards
   var defaultOption = document.createElement("option");
   defaultOption.value = "default";
   defaultOption.textContent = "Choose Stack";
   stackDropdown.appendChild(defaultOption);
+
+  // Create default option for selecting flashcards
+  var showAll = document.createElement("option");
+  showAll.value = "default";
+  showAll.textContent = "Show All";
+  stackSelectDropdown.appendChild(showAll);
 
   // Create option element for each stack in the mainList and add to the stack dropdown
   for (var i = 0; i < mainList.stackList.length; i++) {
@@ -323,6 +388,15 @@ function populateStackDropdown() {
     stackOption.value = stackOptionName.toLowerCase().replace(/\s+/g, "-");
     stackOption.textContent = stackOptionName;
     stackDropdown.appendChild(stackOption);
+  }
+
+  // Separately populate the select dropdown with the same values as the create dropdown
+  for (var i = 0; i < mainList.stackList.length; i++) {
+    var stackOptionName = mainList.stackList[i].stackName;
+    var stackOption = document.createElement("option");
+    stackOption.value = stackOptionName.toLowerCase().replace(/\s+/g, "-");
+    stackOption.textContent = stackOptionName;
+    stackSelectDropdown.appendChild(stackOption);
   }
 }
 
@@ -377,14 +451,25 @@ function alertUser(alertCode) {
   }
 }
 
+function setupSite() {
+  // By default: Show all flashcards and populate the dropdowns
+  populateStackDropdown();
+  showAllFlashcards();
+
+  // Add event listener for selecting and showing specific stacks using the select dropdown
+  stackSelectDropdown.addEventListener("change", showStack);
+}
+
 // Function to save data to localStorage
 function saveData() {
   // Convert mainList to JSON and save to localStorage
   localStorage.setItem("mainList", JSON.stringify(mainList));
 }
 
-// Function to load data from localStorage
+// Main function which loads data from local stiorage and sets up the page for use
 function loadSite() {
+  var stackSelectDropdown = document.getElementById("stackSelectDropdown");
+
   // Retrieve data from localStorage
   const savedData = localStorage.getItem("mainList");
   if (savedData) {
@@ -411,9 +496,5 @@ function loadSite() {
     // If no data found, initialize an empty mainList
     mainList = new StackList();
   }
-  populateStackDropdown();
-  showAllFlashcards();
+  setupSite()
 }
-
-window.addEventListener("beforeunload", saveData);
-window.addEventListener("load", loadSite);

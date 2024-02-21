@@ -57,7 +57,7 @@
 
         <!-- Options for selecting and deleting stacks -->
         <div id="stackRemoverContainer">
-          <select id="stackDropdown"></select>
+          <select class=stackDropdownList id="stackEditDropdown"></select>
           <button
             onclick="deleteStack()"
             class="homeFunctionButton"
@@ -88,6 +88,10 @@
           >
             Create Flashcard
           </button>
+        </div>
+
+        <div id="sortingFlashcardContainer">
+          <select class=stackDropdownList id="stackSelectDropdown"></select>
         </div>
 
         <!-- Contains the list of flashcards for the selected stack -->
