@@ -463,14 +463,21 @@ function generateFlashcardID(question) {
 }
 
 var reviewIndex = 0;
-var randomIndex = -1;
+var randomBool = false;
 
 function showPrevFlashcard() {
+  randomBool = false;
   showReviewStack(--reviewIndex);
 }
 
 function showNextFlashcard() {
+  randomBool = false;
   showReviewStack(++reviewIndex);
+}
+
+function showRandomFlashcard() {
+  randomBool = true;
+  showReviewStack(reviewIndex);
 }
 
 // Clears the stack container and only populates with specified stack
@@ -496,6 +503,25 @@ function showReviewFlashcards(stackName, index) {
 
   var stack = mainList.getStack(stackName);
   var flashcards = stack.getFlashcards();
+  var flashcard;
+
+  if (flashcards.length <= 1) {
+    randomBool = false;
+  }
+
+  // Random flashcard selection
+  if (randomBool === true) {
+    // Randomly choose an index that isn't already being shown
+    var randomIndex = Math.floor(Math.random() * flashcards.length);
+    while (randomIndex === index) {
+      randomIndex = Math.floor(Math.random() * flashcards.length);
+    }
+    // Set new index as the random index and reset random toggle
+    reviewIndex = randomIndex;
+    index = reviewIndex;
+
+    randomBool = false; // Reset randomBool after selecting a random flashcard
+  }
 
   // Wrap selection of flashcard when you reach the end or beginning
   if (index === flashcards.length) {
@@ -505,8 +531,7 @@ function showReviewFlashcards(stackName, index) {
     reviewIndex = flashcards.length - 1;
     index = reviewIndex;
   }
-
-  var flashcard = flashcards[index];
+  flashcard = flashcards[index];
 
   // Create a div element for the flashcard
   var flashcardDiv = document.createElement("div");
