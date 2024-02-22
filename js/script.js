@@ -123,11 +123,21 @@ class Flashcard {
 /*-----------------------------------------------------------------------------------------------*/
 
 // Completely clears the home page and reverts all inputs back to their original state
-function resetPage() {
+function resetHomePage() {
   clearTextBoxes();
-  populateStackDropdown();
+  populateStackDropdowns();
   var stackContainer = document.getElementById("stackContainer");
   stackContainer.innerHTML = "";
+  showAllFlashcards();
+}
+
+// Clears the review page and resets the dropdown
+function resetReviewPage() {
+  populateStackDropdowns();
+  var flashcardReviewContainer = document.getElementById(
+    "flashcardReviewContainer"
+  );
+  flashcardReviewContainer.innerHTML = "";
 }
 
 // Clears all input text boxes on the home page
@@ -273,7 +283,7 @@ function deleteAllStacks() {
   if (confirm) {
     // Remove all stacks from main list and refresh the stack dropdown, show no flashcards
     mainList.clearAll();
-    resetPage();
+    resetHomePage();
 
     // Place cursor back on the stack text box
     stackNameInput.focus();
@@ -296,7 +306,7 @@ function deleteStack() {
     if (confirm) {
       // Remove stack from main list and refresh the stack dropdown
       mainList.removeStack(stackOptionName);
-      resetPage();
+      resetHomePage();
 
       // If the stack removed is the stack currently being showed, then show all stacks
       if (stackSelect === stackOptionName) {
@@ -328,7 +338,7 @@ function addStack() {
     // Create new stack and refresh the stack dropdown
     var newStack = new Stack(newStackName);
     mainList.addStack(newStack);
-    populateStackDropdown();
+    populateStackDropdowns();
     clearTextBoxes();
 
     // Clear text boxes and place cursor back on the stack text box
@@ -374,7 +384,7 @@ function addFlashcard() {
   }
 }
 
-// Sets the select dropdown value to the specified stack
+// Sets the select dropdown value on the home page to the specified stack
 function setSelectDropdown(stackName) {
   var selectDropdown = document.getElementById("stackSelectDropdown");
   var options = selectDropdown.options;
@@ -387,10 +397,13 @@ function setSelectDropdown(stackName) {
 }
 
 // Populates the stack dropdowns used to select stacks for deletion and for organizing the flashcards
-function populateStackDropdown() {
+function populateStackDropdowns() {
   // Get dropdown elements and clear their contents
   var stackDropdown = document.getElementById("stackEditDropdown");
   var stackSelectDropdown = document.getElementById("stackSelectDropdown");
+  var reviewDropdown = document.getElementById("reviewDropdown");
+
+  reviewDropdown.innerHTML = "";
   stackSelectDropdown.innerHTML = "";
   stackDropdown.innerHTML = "";
 
@@ -399,6 +412,12 @@ function populateStackDropdown() {
   defaultOption.value = "default";
   defaultOption.textContent = "Choose Stack";
   stackDropdown.appendChild(defaultOption);
+
+  // Create default option foir creating flashcards
+  var reviewDefaultOption = document.createElement("option");
+  reviewDefaultOption.value = "default";
+  reviewDefaultOption.textContent = "Choose Stack";
+  reviewDropdown.appendChild(reviewDefaultOption);
 
   // Create default option for selecting flashcards
   var showAll = document.createElement("option");
@@ -415,7 +434,7 @@ function populateStackDropdown() {
     stackDropdown.appendChild(stackOption);
   }
 
-  // Separately populate the select dropdown with the same values as the create dropdown
+  // Separately populate the select dropdown
   for (var i = 0; i < mainList.stackList.length; i++) {
     var stackOptionName = mainList.stackList[i].stackName;
     var stackOption = document.createElement("option");
@@ -423,20 +442,14 @@ function populateStackDropdown() {
     stackOption.textContent = stackOptionName;
     stackSelectDropdown.appendChild(stackOption);
   }
-}
 
-// Changes which view is shown on the site
-function changeView(viewID) {
-  // Get a list of all elements
-  var viewPages = document.getElementById("viewContainer").children;
-  // Loop through all views and reveal the one selected
-  for (let i = 0; i < viewPages.length; i++) {
-    let view = viewPages[i];
-    if (view.id === viewID) {
-      view.className = "showView";
-    } else {
-      view.className = "hiddenView";
-    }
+  // Separately populate the review dropdown
+  for (var i = 0; i < mainList.stackList.length; i++) {
+    var stackOptionName = mainList.stackList[i].stackName;
+    var stackOption = document.createElement("option");
+    stackOption.value = stackOptionName.toLowerCase().replace(/\s+/g, "-");
+    stackOption.textContent = stackOptionName;
+    reviewDropdown.appendChild(stackOption);
   }
 }
 
@@ -447,6 +460,89 @@ function generateFlashcardID(question) {
     flashcardID += question.charCodeAt(i);
   }
   return flashcardID;
+}
+
+var reviewIndex = 0;
+var randomIndex = -1;
+
+function showPrevFlashcard() {
+  showReviewStack(--reviewIndex);
+}
+
+function showNextFlashcard() {
+  showReviewStack(++reviewIndex);
+}
+
+// Clears the stack container and only populates with specified stack
+function showReviewStack(index) {
+  reviewIndex = index;
+
+  var stackName =
+    document.getElementById("reviewDropdown").selectedOptions[0].textContent;
+  // Get stack container and empty it before populating it
+  var stackContainer = document.getElementById("flashcardReviewContainer");
+  stackContainer.innerHTML = "";
+  showReviewFlashcards(stackName, reviewIndex);
+}
+
+function showReviewFlashcards(stackName, index) {
+  var stackContainer = document.getElementById("flashcardReviewContainer");
+
+  // Clear page is default option is chosen
+  if (stackName === "Choose Stack") {
+    resetReviewPage();
+    return;
+  }
+
+  var stack = mainList.getStack(stackName);
+  var flashcards = stack.getFlashcards();
+
+  // Wrap selection of flashcard when you reach the end or beginning
+  if (index === flashcards.length) {
+    reviewIndex = 0;
+    index = reviewIndex;
+  } else if (index === -1) {
+    reviewIndex = flashcards.length - 1;
+    index = reviewIndex;
+  }
+
+  var flashcard = flashcards[index];
+
+  // Create a div element for the flashcard
+  var flashcardDiv = document.createElement("div");
+  flashcardDiv.classList.add("flashcard");
+  flashcardDiv.id = flashcard.id;
+
+  // Create question element
+  var question = document.createElement("div");
+  question.classList.add("question");
+  question.textContent = flashcard.question;
+
+  // Create answer element
+  var answer = document.createElement("div");
+  answer.classList.add("answer");
+  answer.classList.add("hiddenText");
+  answer.textContent = flashcard.answer;
+
+  // Create toggle button
+  var toggleButton = document.createElement("button");
+  toggleButton.textContent = "Toggle Flashcard";
+  toggleButton.onclick = function (event) {
+    toggleFlashcard(event);
+  };
+
+  var flashcardStack = document.createElement("div");
+  flashcardStack.classList.add("stack");
+  flashcardStack.textContent = "Stack: " + flashcard.stackName;
+
+  // Append question and answer elements to flashcardDiv
+  flashcardDiv.appendChild(question);
+  flashcardDiv.appendChild(answer);
+  flashcardDiv.appendChild(flashcardStack);
+  flashcardDiv.appendChild(toggleButton);
+
+  // Append the flashcardDiv to the stackContainer
+  stackContainer.appendChild(flashcardDiv);
 }
 
 // Alerts the user to errors in the site
@@ -476,16 +572,46 @@ function alertUser(alertCode) {
   }
 }
 
+// Changes which view is shown on the site
+function changeView(viewID) {
+  // Get a list of all elements
+  var viewPages = document.getElementById("viewContainer").children;
+  // Loop through all views and reveal the one selected
+  for (let i = 0; i < viewPages.length; i++) {
+    let view = viewPages[i];
+    if (view.id === viewID) {
+      view.className = "showView";
+    } else {
+      view.className = "hiddenView";
+    }
+  }
+}
+
+// Resets the review page when changing view from home -> review
+function changeViewReview() {
+  changeView("reviewView");
+  resetReviewPage();
+}
+
+// Resets the home page when changing view from review -> home
+function changeViewHome() {
+  changeView("homeView");
+  resetHomePage();
+}
+
 // Resets page data and initializes event listeners
 function setupSite() {
   var stackSelectDropdown = document.getElementById("stackSelectDropdown");
+  var stackReviewDropdown = document.getElementById("reviewDropdown");
 
   // By default: Show all flashcards and populate the dropdowns
-  populateStackDropdown();
-  showAllFlashcards();
+  resetHomePage();
 
   // Add event listener for selecting and showing specific stacks using the select dropdown
   stackSelectDropdown.addEventListener("change", showStack);
+  stackReviewDropdown.addEventListener("change", function () {
+    showReviewStack(0);
+  });
 }
 
 // Function to save data to localStorage
