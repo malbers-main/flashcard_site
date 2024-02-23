@@ -190,21 +190,28 @@ function toggleFlashcard(event) {
 
 // Delete flashcard from stack using its 'delete' button
 function deleteFlashcard(event) {
-  // Get the ID of the flashcard to delete
-  var flashcardId = event.target.parentElement.id;
 
-  // Iterate through all stacks to find the stack containing the flashcard
-  for (let i = 0; i < mainList.stackList.length; i++) {
-    var stack = mainList.stackList[i];
+  // Confirm the user wants to delete the flashcard
+  var confirm = window.confirm("Are you sure you want to delete this flashcard?");
+  if (confirm) {
+    // Get the ID of the flashcard to delete
+    var flashcardId = event.target.parentElement.id;
 
-    // If the stack contains the flashcard, remove it
-    if (stack.containsFlashcard(flashcardId)) {
-      stack.removeFlashcard(flashcardId);
-      // Update the UI to reflect the deletion, showing the currently selected stack
-      showStack();
-      return;
+    // Iterate through all stacks to find the stack containing the flashcard
+    for (let i = 0; i < mainList.stackList.length; i++) {
+      var stack = mainList.stackList[i];
+
+      // If the stack contains the flashcard, remove it
+      if (stack.containsFlashcard(flashcardId)) {
+        stack.removeFlashcard(flashcardId);
+        // Update the UI to reflect the deletion, showing the currently selected stack
+        showStack();
+        return;
+      }
     }
   }
+  
+  
 }
 
 // Populates the stack container with the flashcards containing 'stackName' as their stack
@@ -246,6 +253,8 @@ function showFlashcards(stackName) {
     // Create toggle button
     var toggleButton = document.createElement("button");
     toggleButton.textContent = "Toggle Flashcard";
+    toggleButton.classList.add("flashcardButton");
+    toggleButton.classList.add("toggleButton");
     toggleButton.onclick = function (event) {
       toggleFlashcard(event);
     };
@@ -253,13 +262,15 @@ function showFlashcards(stackName) {
     // Create delete button
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete Flashcard";
+    deleteButton.classList.add("flashcardButton");
+    deleteButton.classList.add("deleteButton");
     deleteButton.onclick = function (event) {
       deleteFlashcard(event);
     };
 
     var flashcardStack = document.createElement("div");
     flashcardStack.classList.add("stack");
-    flashcardStack.textContent = "Stack: " + flashcard.stackName;
+    flashcardStack.textContent = flashcard.stackName;
 
     // Append question and answer elements to flashcardDiv
     flashcardDiv.appendChild(question);

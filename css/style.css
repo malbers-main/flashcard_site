@@ -1,5 +1,5 @@
 * {
-    font-family: 'Oswald', sans-serif; 
+    font-family: Arial, Helvetica, sans-serif;
     background-color: #F4F9E9;
 }
 
@@ -39,15 +39,12 @@
 }
 .viewButtonClicked {
     background-color: #4f92bf;
-    color: #EEF0EB;
 }
 .viewButton:hover {
     background-color: #4f92bf;
-    color: #EEF0EB;
 }
 .viewButton:active {
     background-color: #4f92bf;
-    color: #EEF0EB;
 }
 /*------------------------ Stack / Flashcard Creator -------------------------*/
 #stackCreatorContainer {
@@ -63,28 +60,82 @@
     margin: 5px;
 }
 .stackDropdownList {
+    background-color: #FEFFFB;
     font-weight: 300;
     padding: 2px 5px;
 }
 .textInput {
+    background-color: #FEFFFB;
     margin: 0px 2px;
 }
 .homeFunctionButton {
-    background-color: #D7E9AF;
-    color: #0A171F;
+    background-color: #0a334f;
+    color: #EEF0EB;
     font-weight: 350;
 }
 .homeFunctionButton:hover {
-    background-color: #94C035;
-    color: #0A171F;
+    background-color: #4f92bf;
 }
 .homeFunctionButton:active {
-    background-color: #94C035;
-    color: #0A171F;
+    background-color: #4f92bf;
 }
 /*----------------------- Flashcard Display -------------------------*/
 #sortingFlashcardContainer {
     text-align: center;
 }
-#stackSelectDropdown {
+
+#stackContainer { 
+    margin-top: 5px;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 10px; /* Gap between flex items */
+}
+.flashcard {
+    flex: 0 0 calc(25% - 10px); /* Three items per row (adjust as needed) */
+    background-color: #FEFFFB;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+.answer {
+    font-weight: 300;
+    padding: 30px;
+    background-color: #FEFFFB;
+}
+.question {
+    font-weight: 300;
+    padding: 30px;
+    background-color: #FEFFFB;
+}
+.stack {
+    font-weight: 600;
+    background-color: #FEFFFB;
+    margin-bottom: 5px;
+}
+.flashcardButton {
+    font-weight: 350;
+    padding: 5px 10px;
+    margin-top: auto;
+}
+.deleteButton {
+    background-color: #da2e2e;
+    color: #FEFFFB;
+}
+.deleteButton:hover {
+    background-color: #E4ACAC;
+    color: #0A171F;
+}
+.deleteButton:active {
+    background-color: #da2e2e;
+    color: #FEFFFB
+}
+.toggleButton {
+    background-color: #0a334f;
+    color: #EEF0EB;
+}
+.toggleButton:hover {
+    background-color: #4f92bf;
+}
+.toggleButton:active {
+    background-color: #4f92bf;
 }

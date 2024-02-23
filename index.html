@@ -6,14 +6,6 @@
     <title>Flashcard Site</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script src="./js/script.js"></script>
-
-    <!-- Google Font Links -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <h1 id="siteTitle">Flashcard Review</h1>
@@ -49,6 +41,7 @@
           <input
             type="text"
             id="stackNameInput"
+            class="textInput"
             placeholder="Enter Stack Name"
           />
           <button
@@ -108,6 +101,7 @@
         <!-- Contains the list of flashcards for the selected stack -->
         <div id="stackContainer"></div>
       </div>
+
       <div class="hiddenView" id="reviewView">
         <div class="reviewContainer">
           <select class="stackDropdownList" id="reviewDropdown"></select>
