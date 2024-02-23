@@ -599,8 +599,9 @@ function alertUser(alertCode) {
 
 // Changes which view is shown on the site
 function changeView(viewID) {
-  // Get a list of all elements
+  // Get a list of all view elements
   var viewPages = document.getElementById("viewContainer").children;
+
   // Loop through all views and reveal the one selected
   for (let i = 0; i < viewPages.length; i++) {
     let view = viewPages[i];
@@ -614,12 +615,28 @@ function changeView(viewID) {
 
 // Resets the review page when changing view from home -> review
 function changeViewReview() {
+
+  // Change the css attributes of the view buttons
+  var reviewButton = document.getElementById("reviewViewButton");
+  var homeButton = document.getElementById("homeViewButton");
+
+  reviewButton.classList.add("viewButtonClicked");
+  homeButton.classList.remove("viewButtonClicked");
+
   changeView("reviewView");
   resetReviewPage();
 }
 
 // Resets the home page when changing view from review -> home
 function changeViewHome() {
+
+  // Change the css attributes of the view buttons
+  var reviewButton = document.getElementById("reviewViewButton");
+  var homeButton = document.getElementById("homeViewButton");
+
+  reviewButton.classList.remove("viewButtonClicked");
+  homeButton.classList.add("viewButtonClicked");
+
   changeView("homeView");
   resetHomePage();
 }
@@ -629,7 +646,8 @@ function setupSite() {
   var stackSelectDropdown = document.getElementById("stackSelectDropdown");
   var stackReviewDropdown = document.getElementById("reviewDropdown");
 
-  // By default: Show all flashcards and populate the dropdowns
+  // By default: Show home view, show all flashcards and populate the dropdowns
+  changeViewHome()
   resetHomePage();
 
   // Add event listener for selecting and showing specific stacks using the select dropdown

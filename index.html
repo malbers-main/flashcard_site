@@ -6,9 +6,15 @@
     <title>Flashcard Site</title>
     <link rel="stylesheet" href="./css/style.css" />
     <script src="./js/script.js"></script>
+
+    <!-- Google Font Links -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+
   </head>
   <body>
-    <h1>Flashcard Website</h1>
+    <h1 id="siteTitle">Flashcard Review</h1>
 
     <div id="viewButtonContainer">
       <button
@@ -31,13 +37,12 @@
         id="learnViewButton"
       >
         Learn
-      </button>
-    </div> -->
+      </button> -->
+    </div>
 
     <div id="viewContainer">
       <!-- Default view is Home -->
       <div class="showView" id="homeView">
-        <h1>Home</h1>
 
         <!-- Contains all elements that are used in the creation and deletion of stacks -->
         <div id="stackCreatorContainer">
@@ -98,7 +103,6 @@
         <div id="stackContainer"></div>
       </div>
       <div class="hiddenView" id="reviewView">
-        <h1>Review</h1>
 
         <div class="reviewContainer">
           <select class="stackDropdownList" id="reviewDropdown"></select> 
