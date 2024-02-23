@@ -139,3 +139,32 @@
 .toggleButton:active {
     background-color: #4f92bf;
 }
+/*------------------------- Review Page Display ------------------------*/
+.reviewContainer {
+    text-align: center;
+    margin: 5px;
+}
+#flashcardReviewContainer {
+    justify-content: center;
+    display: flex;
+}
+.reviewFlashcard {
+    flex: 0 0 calc(33.33% - 10px); /* Set the width to one-third of the container */
+}
+#reviewDropdown {
+    text-align: center;
+    padding: 15px;
+}
+.reviewButton {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #0a334f;
+    color: #EEF0EB;
+    font-weight: 350;
+}
+.reviewButton:hover {
+    background-color: #4f92bf;
+}
+.reviewButton:active {
+    background-color: #4f92bf;
+}

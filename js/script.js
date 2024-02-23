@@ -547,6 +547,7 @@ function showReviewFlashcards(stackName, index) {
   // Create a div element for the flashcard
   var flashcardDiv = document.createElement("div");
   flashcardDiv.classList.add("flashcard");
+  flashcardDiv.classList.add("reviewFlashcard");
   flashcardDiv.id = flashcard.id;
 
   // Create question element
@@ -563,6 +564,8 @@ function showReviewFlashcards(stackName, index) {
   // Create toggle button
   var toggleButton = document.createElement("button");
   toggleButton.textContent = "Toggle Flashcard";
+  toggleButton.classList.add("flashcardButton");
+  toggleButton.classList.add("toggleButton");
   toggleButton.onclick = function (event) {
     toggleFlashcard(event);
   };
