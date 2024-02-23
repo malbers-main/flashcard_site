@@ -8,20 +8,18 @@
     <script src="./js/script.js"></script>
 
     <!-- Google Font Links -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <h1 id="siteTitle">Flashcard Review</h1>
 
     <div id="viewButtonContainer">
-      <button
-        onclick="changeViewHome()"
-        class="viewButton"
-        id="homeViewButton"
-      >
+      <button onclick="changeViewHome()" class="viewButton" id="homeViewButton">
         Home
       </button>
       <button
@@ -31,6 +29,9 @@
       >
         Review
       </button>
+
+      <!-- "Learn" view for later implementation -->
+
       <!-- <button
         onclick="changeView('learnView')"
         class="viewButton"
@@ -43,7 +44,6 @@
     <div id="viewContainer">
       <!-- Default view is Home -->
       <div class="showView" id="homeView">
-
         <!-- Contains all elements that are used in the creation and deletion of stacks -->
         <div id="stackCreatorContainer">
           <input
@@ -62,7 +62,7 @@
 
         <!-- Options for selecting and deleting stacks -->
         <div id="stackRemoverContainer">
-          <select class=stackDropdownList id="stackEditDropdown"></select>
+          <select class="stackDropdownList" id="stackEditDropdown"></select>
           <button
             onclick="deleteStack()"
             class="homeFunctionButton"
@@ -80,12 +80,18 @@
         </div>
 
         <!-- Options for creating flashcards -->
-        <div id="flashcardCreation">
+        <div id="flashcardCreatorContainer">
           <input
             type="text"
             id="fcQuestion"
             placeholder="Enter Question"
-          /><input type="text" id="fcAnswer" placeholder="Enter Answer" />
+            class="textInput questionInput"
+          /><input 
+            type="text" 
+            id="fcAnswer" 
+            placeholder="Enter Answer"
+            class="textInput answerInput"
+            />
           <button
             onclick="addFlashcard()"
             class="homeFunctionButton"
@@ -96,22 +102,39 @@
         </div>
 
         <div id="sortingFlashcardContainer">
-          <select class=stackDropdownList id="stackSelectDropdown"></select>
+          <select class="stackDropdownList" id="stackSelectDropdown"></select>
         </div>
 
         <!-- Contains the list of flashcards for the selected stack -->
         <div id="stackContainer"></div>
       </div>
       <div class="hiddenView" id="reviewView">
-
         <div class="reviewContainer">
-          <select class="stackDropdownList" id="reviewDropdown"></select> 
+          <select class="stackDropdownList" id="reviewDropdown"></select>
           <div id="traverseFlashcards">
-            <button onclick=showPrevFlashcard() class="reviewButton" id="showPrevFlashcard">Show Previous Card</button>
+            <button
+              onclick="showPrevFlashcard()"
+              class="reviewButton"
+              id="showPrevFlashcard"
+            >
+              Show Previous Card
+            </button>
             <div id="flashcardReviewContainer"></div>
-            <button onclick=showNextFlashcard() class="reviewButton" id="showNextFlashcard">Show Next Card</button>
+            <button
+              onclick="showNextFlashcard()"
+              class="reviewButton"
+              id="showNextFlashcard"
+            >
+              Show Next Card
+            </button>
           </div>
-          <button onclick=showRandomFlashcard() class="reviewButton" id="showRandomFlashcard">Show Random Flashcard</button>
+          <button
+            onclick="showRandomFlashcard()"
+            class="reviewButton"
+            id="showRandomFlashcard"
+          >
+            Show Random Flashcard
+          </button>
         </div>
       </div>
       <!-- <div class="hiddenView" id="learnView">

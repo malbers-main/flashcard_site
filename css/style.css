@@ -1,5 +1,6 @@
 * {
     font-family: 'Oswald', sans-serif; 
+    background-color: #F4F9E9;
 }
 
 /* These styles function as a way to show / hide the three different view-states based on their class style */
@@ -25,25 +26,65 @@
     font-weight: 100;
 }
 
+/*---------------- View Buttons ------------------*/
 #viewButtonContainer {
     text-align: center;
 }
-
 .viewButton {
     padding: 10px 20px;
     margin: 5px;
     font-weight: 500;
-    background-color: #ADFCF9;
+    background-color: #0a334f;
+    color: #EEF0EB;
 }
-
 .viewButtonClicked {
-    background-color: #89e1a7;
+    background-color: #4f92bf;
+    color: #EEF0EB;
 }
-
 .viewButton:hover {
-    background-color: #5fc4c0;
+    background-color: #4f92bf;
+    color: #EEF0EB;
 }
-
 .viewButton:active {
-    background-color: #5d9a71;
+    background-color: #4f92bf;
+    color: #EEF0EB;
+}
+/*------------------------ Stack / Flashcard Creator -------------------------*/
+#stackCreatorContainer {
+    text-align: center;
+    margin: 5px;
+}
+#flashcardCreatorContainer {
+    text-align: center;
+    margin: 5px;
+}
+#stackRemoverContainer {
+    text-align: center;
+    margin: 5px;
+}
+.stackDropdownList {
+    font-weight: 300;
+    padding: 2px 5px;
+}
+.textInput {
+    margin: 0px 2px;
+}
+.homeFunctionButton {
+    background-color: #D7E9AF;
+    color: #0A171F;
+    font-weight: 350;
+}
+.homeFunctionButton:hover {
+    background-color: #94C035;
+    color: #0A171F;
+}
+.homeFunctionButton:active {
+    background-color: #94C035;
+    color: #0A171F;
+}
+/*----------------------- Flashcard Display -------------------------*/
+#sortingFlashcardContainer {
+    text-align: center;
+}
+#stackSelectDropdown {
 }
