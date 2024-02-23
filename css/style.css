@@ -158,13 +158,66 @@
 .reviewButton {
     padding: 10px 20px;
     margin: 5px;
-    background-color: #0a334f;
-    color: #EEF0EB;
     font-weight: 350;
 }
-.reviewButton:hover {
-    background-color: #4f92bf;
+#showNextFlashcard {
+    background-color: #98E4AF;
 }
-.reviewButton:active {
-    background-color: #4f92bf;
+#showNextFlashcard:hover {
+    background-color: #1A612F;
+    color: #FEFFFB;
 }
+#showNextFlashcard:active {
+    background-color: #1A612F;
+    color: #FEFFFB;
+}
+#showPrevFlashcard {
+    background-color: #F9627D
+}
+#showPrevFlashcard:hover {
+    background-color: #9D0622;
+    color: #FEFFFB;
+}
+#showPrevFlashcard:active {
+    background-color: #9D0622;
+    color: #FEFFFB;
+}
+
+#showRandomFlashcard {
+    border: 2px solid #0a334f;
+    animation: rainbowEffect 5s infinite linear; /* Apply the rainbow color change animation */
+    color: #FEFFFB;
+    font-weight: 800;
+}
+#showRandomFlashcard:hover {
+    border: 2px solid #7dc6f7;
+}
+#showRandomFlashcard:active {
+    border: 2px solid #0a334f;
+}
+@keyframes rainbowEffect {
+    0% {
+      background-color: red; /* Red */
+    }
+    14.285% {
+      background-color: orange; /* Orange */
+    }
+    28.57% {
+      background-color: yellow; /* Yellow */
+    }
+    42.855% {
+      background-color: green; /* Green */
+    }
+    57.14% {
+      background-color: blue; /* Blue */
+    }
+    71.425% {
+      background-color: indigo; /* Indigo */
+    }
+    85.71% {
+      background-color: violet; /* Violet */
+    }
+    100% {
+      background-color: red; /* Back to Red to loop seamlessly */
+    }
+  }
